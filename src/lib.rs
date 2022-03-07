@@ -105,16 +105,13 @@ pub struct GOL {
     program: Program<WebGlProgram>,
 }
 
+#[wasm_bindgen]
 impl GOL {
+    #[wasm_bindgen]
     pub fn new() -> Self {
         let window = utils::get_window();
 
-        let gl = utils::get_canvas("canvas")
-            .get_context("webgl2")
-            .unwrap()
-            .unwrap()
-            .dyn_into::<GL>()
-            .unwrap();
+        let gl = utils::get_gl("canvas");
 
         let display_size = Size {
             height: window.inner_height().unwrap().as_f64().unwrap() as u32,

@@ -18,6 +18,15 @@ pub fn get_canvas(id: &str) -> HtmlCanvasElement {
     return canvas.dyn_into::<web_sys::HtmlCanvasElement>().unwrap();
 }
 
+pub fn get_gl(id: &str) -> WebGl2RenderingContext {
+    return get_canvas(id)
+        .get_context("webgl2")
+        .unwrap()
+        .unwrap()
+        .dyn_into::<WebGl2RenderingContext>()
+        .unwrap();
+}
+
 pub fn compile_shader(
     gl: &WebGl2RenderingContext,
     shader_type: u32,
