@@ -35,7 +35,21 @@ wee_alloc = { version = "0.4.5", optional = true }
 # like the DOM.
 [dependencies.web-sys]
 version = "0.3.56"
-features = ["console"]
+features = [
+  'Document',
+  'Element',
+  'HtmlCanvasElement',
+  'WebGlBuffer',
+  'WebGlVertexArrayObject',
+  'WebGl2RenderingContext',
+  'WebGlProgram',
+  'WebGlShader',
+  'Window',
+  'WebGlTexture',
+  'WebGlUniformLocation',
+  'WebGlFramebuffer'
+]
+
 
 # The `console_error_panic_hook` crate provides better debugging of panics by
 # logging them with `console.error`. This is great for development, but requires
