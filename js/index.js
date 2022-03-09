@@ -9,7 +9,7 @@ if (!gl) {
 }
 
 //milli seconds per frame
-const MSpF = 100;
+const MSpF = 50;
 //Pixel Size
 const PxSize = 4;
 
@@ -20,13 +20,13 @@ rust.then(m => {
     const gol = new m.GOL(gl, PxSize);
 
     let last_frame = Number.NEGATIVE_INFINITY;
-    let drawScene = function (time) {
-        requestAnimationFrame(drawScene);
+    function drawScene(time) {
+        requestAnimationFrame(arguments.callee);
         if ((time - last_frame) > MSpF) {
             gol.draw();
             last_frame = time;
         }
     }
-    drawScene();
+    requestAnimationFrame(drawScene);
 }).catch(console.error);
 
