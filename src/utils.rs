@@ -18,11 +18,10 @@ pub fn get_canvas(id: &str) -> HtmlCanvasElement {
     return canvas.dyn_into::<web_sys::HtmlCanvasElement>().unwrap();
 }
 
-pub fn gen_random_byte(size: i32) -> Vec<u8>
-{
+pub fn gen_random_byte(size: i32) -> Vec<u8> {
     (0..(size))
-    .map(|_| ((js_sys::Math::random()>0.90) as u8 * 255) as u8)
-    .collect()
+        .map(|_| ((js_sys::Math::random() > 0.90) as u8 * 255) as u8)
+        .collect()
 }
 pub fn get_gl(id: &str) -> WebGl2RenderingContext {
     return get_canvas(id)

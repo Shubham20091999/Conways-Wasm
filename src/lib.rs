@@ -126,14 +126,12 @@ impl GOL {
 		let vert_shader = utils::compile_shader(&gl, GL::VERTEX_SHADER, VERT_SHADER)
 			.ok()
 			.unwrap();
-		let compute_frag =
-			utils::compile_shader(&gl, GL::FRAGMENT_SHADER, COMPUTE_FRAG_SHADER)
-				.ok()
-				.unwrap();
-		let disp_frag =
-			utils::compile_shader(&gl, GL::FRAGMENT_SHADER, DISPLAY_FRAG_SHADER)
-				.ok()
-				.unwrap();
+		let compute_frag = utils::compile_shader(&gl, GL::FRAGMENT_SHADER, COMPUTE_FRAG_SHADER)
+			.ok()
+			.unwrap();
+		let disp_frag = utils::compile_shader(&gl, GL::FRAGMENT_SHADER, DISPLAY_FRAG_SHADER)
+			.ok()
+			.unwrap();
 
 		let program = Program {
 			display: utils::link_program(&gl, &vert_shader, &disp_frag)
@@ -153,8 +151,7 @@ impl GOL {
 				1.0, -1.0, 1.0, 1.0, -1.0, 1.0, //Triangle 2
 			];
 
-			let position_attribute_location =
-				gl.get_attrib_location(&program.compute, "position");
+			let position_attribute_location = gl.get_attrib_location(&program.compute, "position");
 			let buffer = gl.create_buffer().ok_or("Failed to create buffer").unwrap();
 			gl.bind_buffer(GL::ARRAY_BUFFER, Some(&buffer));
 
@@ -167,8 +164,7 @@ impl GOL {
 			// As a result, after `Float32Array::view` we have to be very careful not to
 			// do any memory allocations before it's dropped.
 			unsafe {
-				let positions_array_buf_view =
-					js_sys::Float32Array::view(&vertices);
+				let positions_array_buf_view = js_sys::Float32Array::view(&vertices);
 
 				gl.buffer_data_with_array_buffer_view(
 					GL::ARRAY_BUFFER,
@@ -189,10 +185,8 @@ impl GOL {
 			gl.bind_vertex_array(Some(&vao));
 		}
 
-		let texture_location_compute =
-			gl.get_uniform_location(&program.compute, "u_texture");
-		let texture_location_display =
-			gl.get_uniform_location(&program.display, "u_texture");
+		let texture_location_compute = gl.get_uniform_location(&program.compute, "u_texture");
+		let texture_location_display = gl.get_uniform_location(&program.display, "u_texture");
 
 		gl.pixel_storei(GL::UNPACK_ALIGNMENT, 1);
 
@@ -205,8 +199,7 @@ impl GOL {
 		.ok()
 		.unwrap();
 
-		let values: Vec<u8> =
-			utils::gen_random_byte(compute_size.width * compute_size.height);
+		let values: Vec<u8> = utils::gen_random_byte(compute_size.width * compute_size.height);
 
 		let display_texture = utils::create_texture(
 			&gl,
@@ -219,8 +212,7 @@ impl GOL {
 
 		gl.bind_texture(GL::TEXTURE_2D, Some(&display_texture));
 
-		let pxsize_location_display =
-			gl.get_uniform_location(&program.display, "u_px_size");
+		let pxsize_location_display = gl.get_uniform_location(&program.display, "u_px_size");
 		let size_location = gl.get_uniform_location(&program.compute, "u_size");
 
 		gl.use_program(Some(&program.compute));
@@ -257,7 +249,8 @@ impl GOL {
 		let gl = &self.gl;
 
 		self.gl.use_program(Some(&self.program.display));
-		self.gl.viewport(0, 0, self.size.display.width, self.size.display.height);
+		self.gl
+			.viewport(0, 0, self.size.display.width, self.size.display.height);
 
 		gl.clear_color(0.0, 0.0, 0.0, 1.0);
 		gl.clear(GL::COLOR_BUFFER_BIT);
