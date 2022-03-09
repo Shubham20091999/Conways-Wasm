@@ -1,35 +1,9 @@
-use wasm_bindgen::JsCast;
-
-use web_sys::{
-    Document, HtmlCanvasElement, WebGl2RenderingContext, WebGlProgram, WebGlShader, WebGlTexture,
-    Window,
-};
-
-pub fn get_window() -> Window {
-    return web_sys::window().unwrap();
-}
-
-pub fn get_document() -> Document {
-    return get_window().document().unwrap();
-}
-
-pub fn get_canvas(id: &str) -> HtmlCanvasElement {
-    let canvas = get_document().get_element_by_id(id).unwrap();
-    return canvas.dyn_into::<web_sys::HtmlCanvasElement>().unwrap();
-}
+use web_sys::{WebGl2RenderingContext, WebGlProgram, WebGlShader, WebGlTexture};
 
 pub fn gen_random_byte(size: i32) -> Vec<u8> {
     (0..(size))
         .map(|_| ((js_sys::Math::random() > 0.90) as u8 * 255) as u8)
         .collect()
-}
-pub fn get_gl(id: &str) -> WebGl2RenderingContext {
-    return get_canvas(id)
-        .get_context("webgl2")
-        .unwrap()
-        .unwrap()
-        .dyn_into::<WebGl2RenderingContext>()
-        .unwrap();
 }
 
 pub fn compile_shader(

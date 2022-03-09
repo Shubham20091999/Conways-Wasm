@@ -1,6 +1,7 @@
 extern crate console_error_panic_hook;
 
 use wasm_bindgen::prelude::*;
+use wasm_bindgen::JsCast;
 
 // When the `wee_alloc` feature is enabled, this uses `wee_alloc` as the global
 // allocator.
@@ -22,7 +23,7 @@ mod utils;
 use WebGl2RenderingContext as GL;
 //-------------------------------------------------------------
 
-const PXSIZE: i32 = 4;
+// const PXSIZE: i32 = 4;
 
 const VERT_SHADER: &str = r##"#version 300 es
  
@@ -106,21 +107,22 @@ pub struct GOL {
 #[wasm_bindgen]
 impl GOL {
 	#[wasm_bindgen(constructor)]
-	pub fn new() -> Self {
-		let window = utils::get_window();
-		let canvas = utils::get_canvas("main");
-		let gl = utils::get_gl("main");
+	pub fn new(gl: WebGl2RenderingContext, px_size: i32) -> Self {
+		let canvas = gl
+			.canvas()
+			.unwrap()
+			.dyn_into::<web_sys::HtmlCanvasElement>()
+			.unwrap();
 		let display_size = Size {
-			height: window.inner_height().unwrap().as_f64().unwrap() as i32,
-			width: window.inner_width().unwrap().as_f64().unwrap() as i32,
+			height: canvas.height() as i32,
+			width: canvas.width() as i32,
 		};
 
-		canvas.set_height(display_size.height as u32);
-		canvas.set_width(display_size.width as u32);
+		drop(canvas);
 
 		let compute_size = Size {
-			height: display_size.height / PXSIZE,
-			width: display_size.width / PXSIZE,
+			height: display_size.height / px_size,
+			width: display_size.width / px_size,
 		};
 
 		let vert_shader = utils::compile_shader(&gl, GL::VERTEX_SHADER, VERT_SHADER)
@@ -225,7 +227,7 @@ impl GOL {
 
 		gl.use_program(Some(&program.display));
 		gl.uniform1i(texture_location_display.as_ref(), 0);
-		gl.uniform1f(pxsize_location_display.as_ref(), PXSIZE as f32);
+		gl.uniform1f(pxsize_location_display.as_ref(), px_size as f32);
 
 		let framebuffer = gl.create_framebuffer().unwrap();
 
