@@ -2,7 +2,16 @@ let rust = import("../pkg/index.js");
 
 // Get A WebGL context
 var canvas = document.querySelector("#main");
-var gl = canvas.getContext("webgl2");
+var gl = canvas.getContext("webgl2", {
+    alpha: false,
+    depth: false,
+    stencil: false,
+    desynchronized: true,
+    antialias: false,
+    failIfMajorPerformanceCaveat: true,
+    premultipliedAlpha: true,
+    preserveDrawingBuffer: false,
+});
 if (!gl) {
     alert("WebGL2 not supported!!!");
     throw new Error("WebGL2 not Supported");
@@ -21,11 +30,11 @@ rust.then(m => {
 
     let last_frame = Number.NEGATIVE_INFINITY;
     function drawScene(time) {
-        requestAnimationFrame(arguments.callee);
         if ((time - last_frame) > MSpF) {
             gol.draw();
             last_frame = time;
         }
+        requestAnimationFrame(arguments.callee);
     }
     requestAnimationFrame(drawScene);
 }).catch(console.error);
