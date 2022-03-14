@@ -1,9 +1,13 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
-	<meta charset="UTF-8">
 	<title>Conway's GOL WASM+WebGL</title>
+	<meta charset="UTF-8">
+	<meta name="description" content="Conway's Game of Life in Rust and WebGL">
+	<meta name="keywords" content="Conway's Game of Lie, WASM, Rust, WebGL">
+	<meta name="author" content="Shubham Patel">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <style>
 	html,
@@ -31,7 +35,7 @@
 </style>
 
 <body onload="onloadFn()">
-	<div style="color: grey;" id="loading">Loading...</div>
+	<div style="color: grey;text-align: center;" id="loading">⌛</div>
 	<script>
 		function onloadFn() {
 			let loading = document.getElementById("loading");
