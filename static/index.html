@@ -30,9 +30,16 @@
 	}
 </style>
 
-<body>
+<body onload="onloadFn()">
+	<div style="color: grey;" id="loading">Loading...</div>
+	<script>
+		function onloadFn() {
+			let loading = document.getElementById("loading");
+			loading.style.display = 'none';
+		}
+	</script>
 	<canvas id="main"></canvas>
-	<script src="index.js"></script>
+	<script src="index.js" deter></script>
 </body>
 
 </html>
